@@ -291,6 +291,12 @@ def ui_full(launch_kwargs):
                     "facebook/musicgen-medium",
                     "MultiBand_Diffusion"
                 ],
+                                [
+                    "Lofi",
+                    "./assets/bach.mp3",
+                    "facebook/musicgen-melody",
+                    "Default"
+                ],
             ],
             inputs=[text, melody, model, decoder],
             outputs=[output]
