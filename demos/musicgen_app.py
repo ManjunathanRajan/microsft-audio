@@ -293,7 +293,7 @@ def ui_full(launch_kwargs):
                 ],
                                 [
                     "Lofi",
-                    "./assets/bach.mp3",
+                    "./assets/lofichill.mp3",
                     "facebook/musicgen-melody",
                     "Default"
                 ],
