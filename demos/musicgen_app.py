@@ -182,9 +182,6 @@ def predict_full(model, decoder, text, melody, duration, topk, topp, temperature
             raise gr.Error("Interrupted.")
     MODEL.set_custom_progress_callback(_progress)
 
-    # Set the duration to 4 hours (14400 seconds)
-    duration = 14400
-    
     videos, wavs = _do_predictions(
         [text], [melody], duration, progress=True,
         top_k=topk, top_p=topp, temperature=temperature, cfg_coef=cfg_coef)
@@ -228,6 +225,7 @@ def ui_full(launch_kwargs):
                                           interactive=True, elem_id="melody-input")
                 with gr.Row():
                     submit = gr.Button("Submit")
+                    # Adapted from https://github.com/rkfg/audiocraft/blob/long/app.py, MIT license.
                     _ = gr.Button("Interrupt").click(fn=interrupt, queue=False)
                 with gr.Row():
                     model = gr.Radio(["facebook/musicgen-melody", "facebook/musicgen-medium", "facebook/musicgen-small",
@@ -237,8 +235,7 @@ def ui_full(launch_kwargs):
                     decoder = gr.Radio(["Default", "MultiBand_Diffusion"],
                                        label="Decoder", value="Default", interactive=True)
                 with gr.Row():
-                    # Set the maximum duration to 14400 seconds (4 hours)
-                    duration = gr.Slider(minimum=1, maximum=14400, value=10, label="Duration", interactive=True)
+                    duration = gr.Slider(minimum=1, maximum=1800, value=10, label="Duration", interactive=True)
                 with gr.Row():
                     topk = gr.Number(label="Top-k", value=250, interactive=True)
                     topp = gr.Number(label="Top-p", value=0, interactive=True)
@@ -340,6 +337,7 @@ def ui_full(launch_kwargs):
         )
 
         interface.queue().launch(**launch_kwargs)
+
 
 def ui_batched(launch_kwargs):
     with gr.Blocks() as demo:
